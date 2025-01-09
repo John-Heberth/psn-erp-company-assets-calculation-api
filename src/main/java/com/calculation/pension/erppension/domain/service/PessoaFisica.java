@@ -1,44 +1,58 @@
 package com.calculation.pension.erppension.domain.service;
 
+
 import com.calculation.pension.erppension.core.Validador;
-import com.calculation.pension.erppension.domain.interfaces.Socio;
-import lombok.AllArgsConstructor;
+import com.calculation.pension.erppension.domain.exception.BusinessException;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 /**
  * Classe para Pessoa Física
  * Representa uma pessoa física com CPF e valor de bens imóveis.
  *
  */
-public class PessoaFisica extends Socio {
-    private final String cpf;
-    private final double valorBensImoveis;
+@Getter
+@RequiredArgsConstructor
+public class PessoaFisica {
+
+    private String cpf;
+    private double valorBensImoveis;
 
     public PessoaFisica(String cpf, double valorBensImoveis) {
-        if (!Validador.validarCPF(cpf)) {
-            throw new IllegalArgumentException("CPF inválido");
+        if (cpf == null || cpf.isEmpty()) {
+            throw new IllegalArgumentException("CPF não pode ser vazio");
         }
-        if (valorBensImoveis < 0) {
-            throw new IllegalArgumentException("Valor dos bens imóveis não pode ser negativo");
+        if (valorBensImoveis <= 0) {
+            throw new IllegalArgumentException("Valor de bens imóveis deve ser maior que zero");
         }
         this.cpf = cpf;
         this.valorBensImoveis = valorBensImoveis;
     }
 
-    @Override
-    public double calcularTotalBens(Set<String> visitados) {
-        if (visitados.contains(this.cpf)) {
-            return 0; // Evita ciclos
-        }
-        visitados.add(this.cpf);
-        return this.valorBensImoveis;
+    public String getCpf() {
+        return cpf;
     }
+
+    public double getValorBensImoveis() {
+        return valorBensImoveis;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        PessoaFisica that = (PessoaFisica) obj;
+        return Objects.equals(cpf, that.cpf);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cpf);
+    }
+
 }

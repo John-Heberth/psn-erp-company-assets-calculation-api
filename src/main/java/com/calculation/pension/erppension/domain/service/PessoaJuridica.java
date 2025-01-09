@@ -1,34 +1,53 @@
 package com.calculation.pension.erppension.domain.service;
 
-import com.calculation.pension.erppension.domain.interfaces.Socio;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-import java.util.Set;
+import java.util.Objects;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 /**
- * Classe para Pessoa Jurídica
- * Representa uma pessoa jurídica que é sócia de outra empresa.
+ * Classe para Pessoa Física
+ * Representa uma pessoa física com CPF e valor de bens imóveis.
  *
  */
-public class PessoaJuridica extends Socio {
-    private final Empresa empresa;
+@Getter
+@RequiredArgsConstructor
+public class PessoaJuridica {
 
-    public PessoaJuridica(Empresa empresa) {
-        if (empresa == null) {
-            throw new IllegalArgumentException("Empresa não pode ser nula");
+    private String cnpj;
+    private double valorBensImoveis;
+
+    public PessoaJuridica(String cnpj, double valorBensImoveis) {
+        if (cnpj == null || cnpj.isEmpty()) {
+            throw new IllegalArgumentException("CNPJ não pode ser vazio");
         }
-        this.empresa = empresa;
+        if (valorBensImoveis <= 0) {
+            throw new IllegalArgumentException("Valor de bens imóveis deve ser maior que zero");
+        }
+        this.cnpj = cnpj;
+        this.valorBensImoveis = valorBensImoveis;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public double getValorBensImoveis() {
+        return valorBensImoveis;
     }
 
     @Override
-    public double calcularTotalBens(Set<String> visitados) {
-        return empresa.calcularTotalBens(visitados);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        PessoaJuridica that = (PessoaJuridica) obj;
+        return Objects.equals(cnpj, that.cnpj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cnpj);
     }
 }
