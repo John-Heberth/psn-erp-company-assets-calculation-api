@@ -6,9 +6,6 @@ import com.calculation.pension.erppension.domain.service.PessoaFisica;
 import com.calculation.pension.erppension.domain.service.PessoaJuridica;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
-
-
 @SpringBootApplication
 public class Main {
 

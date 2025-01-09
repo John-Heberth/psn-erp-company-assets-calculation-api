@@ -1,6 +1,7 @@
 package com.calculation.pension.erppension.domain.service;
 
 
+import com.calculation.pension.erppension.domain.exception.BusinessException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -21,10 +22,10 @@ public class PessoaJuridica {
 
     public PessoaJuridica(String cnpj, double valorBensImoveis) {
         if (cnpj == null || cnpj.isEmpty()) {
-            throw new IllegalArgumentException("CNPJ não pode ser vazio");
+            throw new BusinessException("CNPJ não pode ser vazio");
         }
         if (valorBensImoveis <= 0) {
-            throw new IllegalArgumentException("Valor de bens imóveis deve ser maior que zero");
+            throw new BusinessException("Valor de bens imóveis deve ser maior que zero");
         }
         this.cnpj = cnpj;
         this.valorBensImoveis = valorBensImoveis;

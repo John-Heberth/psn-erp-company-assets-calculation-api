@@ -10,7 +10,7 @@ import java.util.Set;
 
 
 /**
- * Classe que representa um bem imóvel
+ * Classe que representa uma calculadora de Patrimnonios
  *
  */
 @Getter

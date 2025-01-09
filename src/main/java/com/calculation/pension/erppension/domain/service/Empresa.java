@@ -1,16 +1,11 @@
 package com.calculation.pension.erppension.domain.service;
 
-import com.calculation.pension.erppension.core.Validador;
 import com.calculation.pension.erppension.domain.exception.BusinessException;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -38,7 +33,7 @@ public class Empresa {
 
     public void adicionarSocio(Object socio) {
         if (socio == null) {
-            throw new IllegalArgumentException("Sócio não pode ser nulo");
+            throw new BusinessException("Sócio não pode ser nulo");
         }
         socios.add(socio);
     }
