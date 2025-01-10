@@ -1,5 +1,6 @@
 package com.calculation.pension.erppension.domain.service;
 
+import com.calculation.pension.erppension.core.Validador;
 import com.calculation.pension.erppension.domain.exception.BusinessException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,9 @@ public class PessoaFisica {
     public PessoaFisica(String cpf, double valorBensImoveis) {
         if (cpf == null || cpf.isEmpty()) {
             throw new BusinessException("CPF não pode ser vazio");
+        }
+        if (!Validador.validarCPF(cpf)) {
+            throw new BusinessException("CPF inválido");
         }
         if (valorBensImoveis <= 0) {
             throw new BusinessException("Valor de bens imóveis deve ser maior que zero");
@@ -50,5 +54,4 @@ public class PessoaFisica {
     public int hashCode() {
         return Objects.hash(cpf);
     }
-
 }

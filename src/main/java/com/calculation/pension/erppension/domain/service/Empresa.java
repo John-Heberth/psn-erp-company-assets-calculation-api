@@ -20,7 +20,7 @@ import java.util.Set;
 public class Empresa {
 
     private String nome;
-    private Set<Object> socios; // Pode ser tanto PessoaFisica quanto PessoaJuridica
+    private Set<Object> socios;
 
     public Empresa(String nome) {
         this.nome = nome;

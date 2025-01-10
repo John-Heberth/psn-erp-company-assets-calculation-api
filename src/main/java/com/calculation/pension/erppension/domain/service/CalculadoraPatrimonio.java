@@ -26,7 +26,6 @@ public class CalculadoraPatrimonio {
     }
 
     private double calcularPatrimonioRecursivo(Empresa empresa, Set<Empresa> empresasVisitadas) {
-        // Evitar ciclos infinitos
         if (empresasVisitadas.contains(empresa)) {
             return 0;
         }
@@ -34,7 +33,6 @@ public class CalculadoraPatrimonio {
 
         double totalPatrimonio = 0;
 
-        // Calcular bens imóveis dos sócios
         for (Object socio : empresa.getSocios()) {
             if (socio instanceof PessoaFisica) {
                 if (sociosContabilizados.add(socio)) { // Verifica se a pessoa já foi contabilizada

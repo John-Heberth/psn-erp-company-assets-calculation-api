@@ -6,7 +6,8 @@ import org.mockito.Mockito;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class CalculadoraPatrimonioTest {
 
@@ -20,7 +21,7 @@ public class CalculadoraPatrimonioTest {
     @Test
     void calcularPatrimonio_comEmpresaSemSocios_retornaZero() {
         var empresa = Mockito.mock(Empresa.class);
-        Mockito.when(empresa.getSocios()).thenReturn(Set.of());
+        when(empresa.getSocios()).thenReturn(Set.of());
 
         double patrimonio = calculadoraPatrimonio.calcularPatrimonio(empresa);
 
@@ -30,10 +31,10 @@ public class CalculadoraPatrimonioTest {
     @Test
     void calcularPatrimonio_comPessoaFisica_retornaValorBensImoveis() {
         var socio = Mockito.mock(PessoaFisica.class);
-        Mockito.when(socio.getValorBensImoveis()).thenReturn(100_000.0);
+        when(socio.getValorBensImoveis()).thenReturn(100_000.0);
 
         var empresa = Mockito.mock(Empresa.class);
-        Mockito.when(empresa.getSocios()).thenReturn(Set.of(socio));
+        when(empresa.getSocios()).thenReturn(Set.of(socio));
 
         double patrimonio = calculadoraPatrimonio.calcularPatrimonio(empresa);
 
@@ -43,10 +44,10 @@ public class CalculadoraPatrimonioTest {
     @Test
     void calcularPatrimonio_comPessoaJuridica_retornaValorBensImoveis() {
         var socio = Mockito.mock(PessoaJuridica.class);
-        Mockito.when(socio.getValorBensImoveis()).thenReturn(500_000.0);
+        when(socio.getValorBensImoveis()).thenReturn(500_000.0);
 
         var empresa = Mockito.mock(Empresa.class);
-        Mockito.when(empresa.getSocios()).thenReturn(Set.of(socio));
+        when(empresa.getSocios()).thenReturn(Set.of(socio));
 
         double patrimonio = calculadoraPatrimonio.calcularPatrimonio(empresa);
 
@@ -56,15 +57,13 @@ public class CalculadoraPatrimonioTest {
     @Test
     void calcularPatrimonio_comSocioJaContabilizado_retornaValorSemDuplicar() {
         var socio = Mockito.mock(PessoaFisica.class);
-        Mockito.when(socio.getValorBensImoveis()).thenReturn(200_000.0);
+        when(socio.getValorBensImoveis()).thenReturn(200_000.0);
 
         var empresa = Mockito.mock(Empresa.class);
-        Mockito.when(empresa.getSocios()).thenReturn(Set.of(socio));
+        when(empresa.getSocios()).thenReturn(Set.of(socio));
 
-        // Calcula pela primeira vez
         double patrimonio1 = calculadoraPatrimonio.calcularPatrimonio(empresa);
 
-        // Calcula pela segunda vez
         double patrimonio2 = calculadoraPatrimonio.calcularPatrimonio(empresa);
 
         assertEquals(200_000.0, patrimonio1, "O patrimônio inicial deve ser igual ao valor do sócio.");
@@ -74,16 +73,16 @@ public class CalculadoraPatrimonioTest {
     @Test
     void calcularPatrimonio_comEmpresaComoSocio_retornaValorTotalRecursivo() {
         var socio1 = Mockito.mock(PessoaFisica.class);
-        Mockito.when(socio1.getValorBensImoveis()).thenReturn(150_000.0);
+        when(socio1.getValorBensImoveis()).thenReturn(150_000.0);
 
         var socio2 = Mockito.mock(PessoaFisica.class);
-        Mockito.when(socio2.getValorBensImoveis()).thenReturn(50_000.0);
+        when(socio2.getValorBensImoveis()).thenReturn(50_000.0);
 
         var empresaFilha = Mockito.mock(Empresa.class);
-        Mockito.when(empresaFilha.getSocios()).thenReturn(Set.of(socio2));
+        when(empresaFilha.getSocios()).thenReturn(Set.of(socio2));
 
         var empresaMae = Mockito.mock(Empresa.class);
-        Mockito.when(empresaMae.getSocios()).thenReturn(Set.of(socio1, empresaFilha));
+        when(empresaMae.getSocios()).thenReturn(Set.of(socio1, empresaFilha));
 
         double patrimonio = calculadoraPatrimonio.calcularPatrimonio(empresaMae);
 
@@ -95,8 +94,8 @@ public class CalculadoraPatrimonioTest {
         var empresaA = Mockito.mock(Empresa.class);
         var empresaB = Mockito.mock(Empresa.class);
 
-        Mockito.when(empresaA.getSocios()).thenReturn(Set.of(empresaB));
-        Mockito.when(empresaB.getSocios()).thenReturn(Set.of(empresaA));
+        when(empresaA.getSocios()).thenReturn(Set.of(empresaB));
+        when(empresaB.getSocios()).thenReturn(Set.of(empresaA));
 
         double patrimonio = calculadoraPatrimonio.calcularPatrimonio(empresaA);
 
